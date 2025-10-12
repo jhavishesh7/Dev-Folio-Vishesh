@@ -95,7 +95,7 @@ const Hero = () => {
         >
           <motion.h1
             ref={titleRef}
-            className="text-6xl md:text-8xl font-bold tracking-tight glow-text-cyan terminal-text"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight glow-text-cyan terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -15 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -111,7 +111,7 @@ const Hero = () => {
           
           <motion.p
             ref={subtitleRef}
-            className="text-xl md:text-2xl text-primary glow-text-violet font-light tracking-wider"
+            className="text-sm sm:text-base md:text-xl lg:text-2xl text-primary glow-text-violet font-light tracking-wider px-4"
             style={{ y: 0 }}
             whileInView={{ y: -10 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -124,7 +124,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex gap-4 justify-center mt-8"
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-8 px-4"
           >
             <motion.button
               whileHover={{ 
@@ -133,8 +133,9 @@ const Hero = () => {
               }}
               whileTap={{ scale: 0.95 }}
               onClick={scrollToContent}
-              className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold 
-                         hover:shadow-lg hover:shadow-primary/50 transition-all neon-border-cyan relative overflow-hidden group"
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground rounded-lg font-bold text-base sm:text-lg
+                       hover:shadow-lg hover:shadow-primary/50 transition-all neon-border-cyan
+                       terminal-text relative overflow-hidden w-full sm:w-auto group"
             >
               <motion.span
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -152,8 +153,8 @@ const Hero = () => {
                 backgroundColor: "rgba(168, 85, 247, 0.2)"
               }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 border-2 border-accent text-accent rounded-lg font-semibold 
-                         hover:bg-accent hover:text-accent-foreground transition-all neon-border-violet relative overflow-hidden group"
+              className="px-6 sm:px-8 py-3 border-2 border-accent text-accent rounded-lg font-semibold text-base sm:text-lg
+                         hover:bg-accent hover:text-accent-foreground transition-all neon-border-violet relative overflow-hidden group w-full sm:w-auto"
             >
               <motion.span
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent opacity-0 group-hover:opacity-100"

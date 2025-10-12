@@ -300,7 +300,7 @@ const Projects = () => {
   ];
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section id="projects" className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background z-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent z-0" />
@@ -311,10 +311,10 @@ const Projects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 glow-text-cyan terminal-text"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -12 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -323,7 +323,7 @@ const Projects = () => {
             PROJECTS_ARCHIVE.db
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1, y: -8 }}
             transition={{ delay: 0.3, duration: 0.8 }}

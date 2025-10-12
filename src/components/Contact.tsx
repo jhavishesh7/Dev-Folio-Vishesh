@@ -62,7 +62,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section id="contact" className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
       {/* 3D Data Sphere Background with Parallax */}
       <motion.div 
         className="absolute inset-0 z-0 opacity-20"
@@ -94,19 +94,18 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 glow-text-cyan terminal-text"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -12 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
             viewport={{ once: false, amount: 0.5 }}
           >
             CONNECT.sh
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
             style={{ y: 0 }}
             whileInView={{ y: -8 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -139,7 +138,7 @@ const Contact = () => {
         </motion.div>
 
         {/* Contact Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           {contacts.map((contact, index) => {
             const Icon = contact.icon;
             return (
@@ -159,11 +158,11 @@ const Contact = () => {
                 <div className="p-6 rounded-xl bg-card border border-border 
                               hover:border-primary transition-all duration-300 neon-border-cyan
                               backdrop-blur-sm text-center">
-                  <div className={`${contact.color} mb-4 flex justify-center animate-float`}>
-                    <Icon className="w-8 h-8" strokeWidth={1.5} />
+                  <div className={`${contact.color} mb-4 flex justify-center`}>
+                    <Icon className="w-6 h-6 sm:w-8 sm:h-8" strokeWidth={1.5} />
                   </div>
-                  <div className="text-lg font-bold mb-2 terminal-text">{contact.label}</div>
-                  <div className="text-sm text-muted-foreground break-all">{contact.value}</div>
+                  <div className="text-base sm:text-lg font-bold mb-2 terminal-text">{contact.label}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground break-all">{contact.value}</div>
                 </div>
               </motion.a>
             );
@@ -178,15 +177,15 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <p className="text-lg text-muted-foreground mb-6">
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-6 px-2">
             Let's build something extraordinary together
           </p>
           <motion.a
             href="mailto:jhavishesh7@gmail.com"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-block px-8 py-4 bg-primary text-primary-foreground rounded-lg 
-                     font-bold text-lg hover:shadow-lg hover:shadow-primary/50 
+            className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-primary text-primary-foreground rounded-lg 
+                     font-bold text-base sm:text-lg hover:shadow-lg hover:shadow-primary/50 
                      transition-all neon-border-cyan terminal-text"
           >
             INITIATE_CONTACT()

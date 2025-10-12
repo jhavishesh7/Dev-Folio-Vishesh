@@ -24,7 +24,7 @@ const About = () => {
   ];
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden flex items-center">
+    <section className="min-h-screen py-8 sm:py-12 px-4 relative overflow-hidden flex items-center">
       {/* Creative Geometric Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Animated geometric shapes */}
@@ -162,19 +162,18 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 glow-text-cyan terminal-text"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -10 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
           >
             ABOUT_ME.exe
           </motion.h2>
           <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2"
             style={{ y: 0 }}
             whileInView={{ y: -5 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -185,7 +184,7 @@ const About = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -201,21 +200,16 @@ const About = () => {
                 }}
                 viewport={{ once: true }}
                 whileHover={{ 
-                  scale: 1.05, 
-                  y: -15,
+                  scale: 1.05,
                   rotateY: 5,
                   transition: { duration: 0.3 }
                 }}
-                style={{ y: 0 }}
                 className="relative group perspective-1000"
               >
                 <motion.div 
-                  className="p-8 rounded-xl bg-card/90 border border-border 
+                  className="p-6 sm:p-8 rounded-xl bg-card/90 border border-border 
                               hover:border-primary transition-all duration-300
                               neon-border-cyan backdrop-blur-md relative overflow-hidden"
-                  whileInView={{ y: index % 2 === 0 ? -8 : -12 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  viewport={{ once: false, amount: 0.5 }}
                 >
                   {/* Animated background gradient on hover */}
                   <motion.div
@@ -249,10 +243,10 @@ const About = () => {
                   ))}
                   
                   <div className={`${feature.color} mb-4 relative z-10`}>
-                    <Icon className="w-12 h-12" strokeWidth={1.5} />
+                    <Icon className="w-10 h-10 sm:w-12 sm:h-12" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3 terminal-text relative z-10">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed relative z-10">{feature.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 terminal-text relative z-10">{feature.title}</h3>
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed relative z-10">{feature.description}</p>
                   
                   {/* Particle effect on hover */}
                   <motion.div
@@ -280,7 +274,7 @@ const About = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
         >
           {[
             { label: "Projects Completed", value: "25+" },
@@ -290,7 +284,7 @@ const About = () => {
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
-              className="p-6 rounded-lg bg-card/70 border border-border text-center backdrop-blur-md relative overflow-hidden group"
+              className="p-4 sm:p-6 rounded-lg bg-card/70 border border-border text-center backdrop-blur-md relative overflow-hidden group"
               style={{ y: 0 }}
               initial={{ opacity: 0, scale: 0.5 }}
               whileInView={{ opacity: 1, scale: 1, y: -10 }}
@@ -339,7 +333,7 @@ const About = () => {
               ))}
               
               <motion.div 
-                className="text-3xl md:text-4xl font-bold text-primary glow-text-cyan terminal-text relative z-10"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary glow-text-cyan terminal-text relative z-10"
                 whileHover={{ 
                   scale: 1.15,
                   transition: { type: "spring", stiffness: 300 }

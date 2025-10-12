@@ -49,13 +49,12 @@ const Skills = () => {
         { name: "Solidity", level: 82 },
         { name: "Web3.js", level: 85 },
         { name: "Hardhat", level: 80 },
-        { name: "LayerZero", level: 78 },
       ],
     },
   ];
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section id="skills" className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
       {/* 3D Skill Orbs Background with Parallax */}
       <motion.div 
         className="absolute inset-0 z-0 opacity-30"
@@ -79,24 +78,16 @@ const Skills = () => {
         </Canvas>
       </motion.div>
 
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background z-0"
-        style={{ y: 0 }}
-        whileInView={{ y: 15 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      />
-      
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 glow-text-violet terminal-text"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-violet terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -12 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -105,7 +96,7 @@ const Skills = () => {
             SKILLS_MATRIX.sys
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
             style={{ y: 0 }}
             whileInView={{ y: -8 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -115,7 +106,7 @@ const Skills = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.category}

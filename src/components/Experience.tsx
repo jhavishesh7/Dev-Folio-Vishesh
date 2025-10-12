@@ -48,7 +48,7 @@ const Experience = () => {
   ];
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
       <motion.div 
         className="absolute inset-0 bg-gradient-to-b from-background via-background/98 to-background"
         style={{ y: 0 }}
@@ -63,10 +63,10 @@ const Experience = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 glow-text-violet terminal-text"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-violet terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -12 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -75,7 +75,7 @@ const Experience = () => {
             CAREER_TIMELINE.log
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
             style={{ y: 0 }}
             whileInView={{ y: -8 }}
             transition={{ duration: 0.7, ease: "easeOut" }}

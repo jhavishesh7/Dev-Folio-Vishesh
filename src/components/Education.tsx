@@ -60,7 +60,7 @@ const Education = () => {
   }, [playSound]);
 
   return (
-    <section className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
       {/* Animated background with Parallax */}
       <motion.div 
         className="absolute inset-0 gradient-cosmic opacity-20"
@@ -84,16 +84,16 @@ const Education = () => {
         className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
       />
       
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-bold mb-6 glow-text-cyan terminal-text"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
             style={{ y: 0 }}
             whileInView={{ y: -12 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -102,7 +102,7 @@ const Education = () => {
             EDUCATION_&_ACHIEVEMENTS.log
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
             style={{ y: 0 }}
             whileInView={{ y: -8 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
