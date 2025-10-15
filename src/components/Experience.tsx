@@ -49,13 +49,7 @@ const Experience = () => {
 
   return (
     <section className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background via-background/98 to-background"
-        style={{ y: 0 }}
-        whileInView={{ y: 20 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/98 to-background" />
       
       <div className="max-w-5xl mx-auto relative z-10">
         <motion.div
@@ -65,24 +59,12 @@ const Experience = () => {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-violet terminal-text"
-            style={{ y: 0 }}
-            whileInView={{ y: -12 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-violet terminal-text">
             CAREER_TIMELINE.log
-          </motion.h2>
-          <motion.p 
-            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
-            style={{ y: 0 }}
-            whileInView={{ y: -8 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-2">
             Journey through the professional codeverse
-          </motion.p>
+          </p>
         </motion.div>
 
         <div className="relative">
@@ -105,10 +87,10 @@ const Experience = () => {
             {experiences.map((exp, index) => (
               <motion.div
                 key={exp.company + exp.period}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50, y: 30 }}
-                whileInView={{ opacity: 1, x: 0, y: index % 2 === 0 ? -8 : -12 }}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: false, amount: 0.5 }}
+                viewport={{ once: true }}
                 className={`relative flex items-center ${
                   index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                 }`}

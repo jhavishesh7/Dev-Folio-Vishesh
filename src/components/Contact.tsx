@@ -63,30 +63,22 @@ const Contact = () => {
 
   return (
     <section id="contact" className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
-      {/* 3D Data Sphere Background with Parallax */}
-      <motion.div 
-        className="absolute inset-0 z-0 opacity-20"
-        style={{ y: 0 }}
-        whileInView={{ y: -30 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      >
-        <Canvas camera={{ position: [0, 0, 6] }}>
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+      {/* 3D Data Sphere Background - Optimized */}
+      <div className="absolute inset-0 z-0 opacity-20">
+        <Canvas 
+          camera={{ position: [0, 0, 6] }}
+          dpr={[1, 1.5]}
+          performance={{ min: 0.5 }}
+        >
+          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.3} />
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={2} color="#00f0ff" />
           <pointLight position={[-10, -10, -10]} intensity={1} color="#a855f7" />
           <DataSphere />
         </Canvas>
-      </motion.div>
+      </div>
 
-      <motion.div 
-        className="absolute inset-0 gradient-cosmic opacity-30 z-0"
-        style={{ y: 0 }}
-        whileInView={{ y: 20 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      />
+      <div className="absolute inset-0 gradient-cosmic opacity-30 z-0" />
       
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
@@ -96,23 +88,12 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
-            style={{ y: 0 }}
-            whileInView={{ y: -12 }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text">
             CONNECT.sh
-          </motion.h2>
-          <motion.p 
-            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
-            style={{ y: 0 }}
-            whileInView={{ y: -8 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-2">
             Initialize communication protocols
-          </motion.p>
+          </p>
         </motion.div>
 
         {/* Terminal Interface */}
@@ -147,11 +128,11 @@ const Contact = () => {
                 href={contact.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: index % 2 === 0 ? -8 : -12 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: false, amount: 0.5 }}
-                whileHover={{ scale: 1.05, y: -15 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
                 onClick={() => handleTerminalClick(contact.value)}
                 className="group relative"
               >

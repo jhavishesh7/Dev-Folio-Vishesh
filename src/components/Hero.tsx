@@ -41,33 +41,25 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* 3D Background with Parallax */}
-      <motion.div 
-        className="absolute inset-0 z-0"
-        style={{ y: 0 }}
-        whileInView={{ y: 50 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      >
-        <Canvas camera={{ position: [0, 0, 1] }}>
-          <Stars radius={100} depth={50} count={7000} factor={5} saturation={0} fade speed={1.5} />
-          <Float speed={2.5} rotationIntensity={0.8} floatIntensity={0.8}>
+      {/* 3D Background - Optimized */}
+      <div className="absolute inset-0 z-0">
+        <Canvas 
+          camera={{ position: [0, 0, 1] }}
+          dpr={[1, 1.5]}
+          performance={{ min: 0.5 }}
+        >
+          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+          <Float speed={2} rotationIntensity={0.6} floatIntensity={0.6}>
             <ambientLight intensity={0.6} />
             <pointLight position={[10, 10, 10]} intensity={1.5} color="#00f0ff" />
             <pointLight position={[-10, -10, -10]} intensity={0.8} color="#a855f7" />
             <pointLight position={[0, 15, 5]} intensity={0.5} color="#00f0ff" />
           </Float>
         </Canvas>
-      </motion.div>
+      </div>
 
-      {/* Gradient Overlays with Parallax */}
-      <motion.div 
-        className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-background/50 to-background"
-        style={{ y: 0 }}
-        whileInView={{ y: 30 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      />
+      {/* Gradient Overlays */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-background/50 to-background" />
       <motion.div 
         className="absolute inset-0 z-10 gradient-radial-glow"
         animate={{
@@ -82,24 +74,17 @@ const Hero = () => {
         }}
       />
 
-      {/* Content with Parallax */}
+      {/* Content */}
       <div className="relative z-20 flex h-full flex-col items-center justify-center px-4 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          style={{ y: 0 }}
-          whileInView={{ y: -20 }}
-          viewport={{ once: false, amount: 0.5 }}
           className="space-y-6"
         >
           <motion.h1
             ref={titleRef}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight glow-text-cyan terminal-text"
-            style={{ y: 0 }}
-            whileInView={{ y: -15 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
             whileHover={{ 
               scale: 1.05,
               textShadow: "0 0 30px rgba(0, 240, 255, 1)",
@@ -112,10 +97,6 @@ const Hero = () => {
           <motion.p
             ref={subtitleRef}
             className="text-sm sm:text-base md:text-xl lg:text-2xl text-primary glow-text-violet font-light tracking-wider px-4"
-            style={{ y: 0 }}
-            whileInView={{ y: -10 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
           >
             SOFTWARE DEVELOPER • AI RESEARCHER • BLOCKCHAIN ARCHITECT
           </motion.p>

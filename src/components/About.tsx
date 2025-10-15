@@ -70,8 +70,8 @@ const About = () => {
             ease: "linear"
           }}
         />
-        {/* Floating dots */}
-        {[...Array(15)].map((_, i) => (
+        {/* Floating dots - Reduced for performance */}
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-primary/30 rounded-full"
@@ -95,14 +95,8 @@ const About = () => {
         ))}
       </div>
 
-      {/* Sophisticated gradient background with parallax */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background z-0"
-        style={{ y: 0 }}
-        whileInView={{ y: 10 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      />
+      {/* Sophisticated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-background z-0" />
       <motion.div 
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent z-0"
         animate={{
@@ -117,23 +111,19 @@ const About = () => {
         }}
       />
       
-      {/* Subtle grid pattern with parallax */}
-      <motion.div 
+      {/* Subtle grid pattern */}
+      <div 
         className="absolute inset-0 opacity-[0.02] z-0" 
         style={{
           backgroundImage: `linear-gradient(rgba(0, 240, 255, 0.3) 1px, transparent 1px),
                             linear-gradient(90deg, rgba(0, 240, 255, 0.3) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px',
-          y: 0
+          backgroundSize: '50px 50px'
         }}
-        whileInView={{ y: -15 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
       />
       
-      {/* Floating particles effect with parallax */}
+      {/* Floating particles effect - Optimized */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-primary/20 rounded-full"
@@ -164,24 +154,13 @@ const About = () => {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
-            style={{ y: 0 }}
-            whileInView={{ y: -10 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text">
             ABOUT_ME.exe
-          </motion.h2>
-          <motion.p 
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2"
-            style={{ y: 0 }}
-            whileInView={{ y: -5 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-2">
             A passionate technologist bridging the gap between innovative ideas and robust implementations. 
             Specializing in AI, blockchain, and full-stack development to create next-generation digital experiences.
-          </motion.p>
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
@@ -217,14 +196,14 @@ const About = () => {
                     transition={{ duration: 0.4 }}
                   />
                   
-                  {/* Floating particles */}
-                  {[...Array(5)].map((_, i) => (
+                  {/* Floating particles - Reduced */}
+                  {[...Array(3)].map((_, i) => (
                     <motion.div
                       key={i}
                       className="absolute w-1 h-1 bg-primary/40 rounded-full"
                       style={{
-                        left: `${20 + i * 15}%`,
-                        top: `${30 + i * 10}%`,
+                        left: `${25 + i * 25}%`,
+                        top: `${30 + i * 15}%`,
                       }}
                       animate={{
                         y: [-10, 10],
@@ -268,7 +247,7 @@ const About = () => {
           })}
         </div>
 
-        {/* Stats with Parallax */}
+        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -285,16 +264,15 @@ const About = () => {
             <motion.div
               key={stat.label}
               className="p-4 sm:p-6 rounded-lg bg-card/70 border border-border text-center backdrop-blur-md relative overflow-hidden group"
-              style={{ y: 0 }}
               initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1, y: -10 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               transition={{ 
                 duration: 0.6, 
                 delay: index * 0.1,
                 type: "spring",
                 stiffness: 200
               }}
-              viewport={{ once: false, amount: 0.5 }}
+              viewport={{ once: true }}
               whileHover={{ 
                 scale: 1.08, 
                 borderColor: "rgba(0, 240, 255, 0.8)",
@@ -308,14 +286,14 @@ const About = () => {
                 transition={{ duration: 0.3 }}
               />
               
-              {/* Floating particles in stat cards */}
-              {[...Array(3)].map((_, i) => (
+              {/* Floating particles in stat cards - Minimal */}
+              {[...Array(2)].map((_, i) => (
                 <motion.div
                   key={i}
                   className="absolute w-1 h-1 bg-primary/50 rounded-full"
                   style={{
-                    left: `${25 + i * 25}%`,
-                    top: `${20 + i * 20}%`,
+                    left: `${30 + i * 40}%`,
+                    top: `${25 + i * 25}%`,
                   }}
                   animate={{
                     y: [-8, 8],

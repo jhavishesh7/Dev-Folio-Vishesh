@@ -313,24 +313,12 @@ const Projects = () => {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
-            style={{ y: 0 }}
-            whileInView={{ y: -12 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text">
             PROJECTS_ARCHIVE.db
-          </motion.h2>
-          <motion.p 
-            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1, y: -8 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-2">
             Explore the digital dimensions I've crafted
-          </motion.p>
+          </p>
         </motion.div>
 
         {projectCategories.map((category, categoryIndex) => {

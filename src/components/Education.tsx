@@ -61,28 +61,16 @@ const Education = () => {
 
   return (
     <section className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
-      {/* Animated background with Parallax */}
-      <motion.div 
-        className="absolute inset-0 gradient-cosmic opacity-20"
-        style={{ y: 0 }}
-        whileInView={{ y: -25 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: false, amount: 0.3 }}
-      />
-      <motion.div
-        animate={{
-          backgroundPosition: ['0% 0%', '100% 100%'],
+      {/* Animated background */}
+      <div className="absolute inset-0 gradient-cosmic opacity-20" />
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(0deg, rgba(0, 240, 255, 0.1) 0px, transparent 1px, transparent 40px),
+                            repeating-linear-gradient(90deg, rgba(168, 85, 247, 0.1) 0px, transparent 1px, transparent 40px)`
         }}
-        style={{ y: 0 }}
-        whileInView={{ y: 15 }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-        viewport={{ once: false, amount: 0.3 }}
-        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
       />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5" />
       
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
@@ -92,24 +80,12 @@ const Education = () => {
           viewport={{ once: true }}
           className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text"
-            style={{ y: 0 }}
-            whileInView={{ y: -12 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text">
             EDUCATION_&_ACHIEVEMENTS.log
-          </motion.h2>
-          <motion.p 
-            className="text-sm sm:text-base md:text-lg text-muted-foreground px-2"
-            style={{ y: 0 }}
-            whileInView={{ y: -8 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-          >
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-2">
             Academic journey and competitive victories
-          </motion.p>
+          </p>
         </motion.div>
 
         {/* Education Section */}
