@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { Heart, MessageCircle, Calendar, Clock, X, Send, Loader2, ExternalLink } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Heart, MessageCircle, Calendar, Clock, X, Send, Loader2, ExternalLink, Share2, Copy, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase, BlogPost, BlogComment, getUserId } from "@/lib/supabase";
@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Input } from "./ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 interface BlogDetailProps {
   blog: BlogPost | null;
@@ -24,11 +25,14 @@ interface BlogDetailProps {
 
 const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [comments, setComments] = useState<BlogComment[]>([]);
   const [loading, setLoading] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(blog?.likes_count || 0);
   const [submitting, setSubmitting] = useState(false);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [commentForm, setCommentForm] = useState({
     user_name: "",
     user_email: "",
@@ -41,7 +45,26 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
       checkLikeStatus();
       fetchLikesCount();
     }
+    // Close share menu when dialog closes
+    if (!isOpen) {
+      setShowShareMenu(false);
+    }
   }, [blog, isOpen]);
+
+  // Close share menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (showShareMenu && !target.closest('.relative')) {
+        setShowShareMenu(false);
+      }
+    };
+
+    if (showShareMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showShareMenu]);
 
   const fetchComments = async () => {
     if (!blog) return;
@@ -162,6 +185,30 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
     }
   };
 
+  const handleCopyLink = async () => {
+    if (!blog) return;
+    
+    const blogUrl = `${window.location.origin}/blog/${blog.id}`;
+    
+    try {
+      await navigator.clipboard.writeText(blogUrl);
+      setCopied(true);
+      setShowShareMenu(false);
+      toast({
+        title: "Link copied!",
+        description: "Blog link has been copied to clipboard.",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+      toast({
+        title: "Failed to copy",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (!blog) return null;
 
   const readTime = blog.read_time || Math.ceil(blog.content.split(/\s+/).length / 200);
@@ -170,28 +217,91 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-primary/30 neon-border-cyan">
         <DialogHeader>
-          <DialogTitle className="text-2xl sm:text-3xl terminal-text glow-text-cyan">
-            {blog.title}
-          </DialogTitle>
-          <DialogDescription className="text-muted-foreground">
-            <div className="flex flex-wrap items-center gap-4 mt-2">
-              {blog.author && (
-                <span className="terminal-text text-sm">
-                  <span className="text-primary">Author:</span> {blog.author}
-                </span>
-              )}
-              <div className="flex items-center gap-2 text-sm">
-                <Calendar className="w-4 h-4" />
-                <span className="terminal-text">
-                  {format(new Date(blog.published_at || blog.created_at), 'MMM dd, yyyy')}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-sm">
-                <Clock className="w-4 h-4" />
-                <span className="terminal-text">{readTime} min read</span>
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="flex-1">
+              <DialogTitle className="text-2xl sm:text-3xl terminal-text glow-text-cyan">
+                {blog.title}
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-4 mt-2">
+                  {blog.author && (
+                    <span className="terminal-text text-sm">
+                      <span className="text-primary">Author:</span> {blog.author}
+                    </span>
+                  )}
+                  <div className="flex items-center gap-2 text-sm">
+                    <Calendar className="w-4 h-4" />
+                    <span className="terminal-text">
+                      {format(new Date(blog.published_at || blog.created_at), 'MMM dd, yyyy')}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Clock className="w-4 h-4" />
+                    <span className="terminal-text">{readTime} min read</span>
+                  </div>
+                </div>
+              </DialogDescription>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {/* View in New Window Button - Moved to top */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  const blogUrl = `${window.location.origin}/blog/${blog.id}`;
+                  window.open(blogUrl, '_blank', 'noopener,noreferrer');
+                }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary text-primary hover:bg-primary/20 transition-all terminal-text"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span className="font-semibold hidden sm:inline">View in New Window</span>
+                <span className="font-semibold sm:hidden">New Window</span>
+              </motion.button>
+
+              {/* Share Button */}
+              <div className="relative">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowShareMenu(!showShareMenu)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary/10 border border-secondary text-secondary hover:bg-secondary/20 transition-all terminal-text"
+                >
+                  <Share2 className="w-4 h-4" />
+                  <span className="font-semibold hidden sm:inline">Share</span>
+                </motion.button>
+
+                {/* Share Menu Dropdown */}
+                <AnimatePresence>
+                  {showShareMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden"
+                    >
+                      <button
+                        onClick={handleCopyLink}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted transition-colors terminal-text"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="w-4 h-4 text-green-500" />
+                            <span className="text-sm">Link Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4" />
+                            <span className="text-sm">Copy Link</span>
+                          </>
+                        )}
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
-          </DialogDescription>
+          </div>
         </DialogHeader>
 
         {/* Cover Image */}
@@ -239,43 +349,27 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
         </motion.div>
 
         {/* Like and Comment Actions */}
-        <div className="flex items-center justify-between mb-6 border-t border-border pt-6">
-          <div className="flex items-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleLike}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
-                liked
-                  ? 'bg-primary/20 border-primary text-primary'
-                  : 'bg-muted border-border text-muted-foreground hover:border-primary'
-              }`}
-            >
-              <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
-              <span className="terminal-text font-semibold">{likesCount}</span>
-            </motion.button>
-
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted border border-border">
-              <MessageCircle className="w-5 h-5 text-muted-foreground" />
-              <span className="terminal-text font-semibold text-muted-foreground">
-                {comments.length}
-              </span>
-            </div>
-          </div>
-
-          {/* View in New Window Button */}
+        <div className="flex items-center gap-4 mb-6 border-t border-border pt-6">
           <motion.button
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              const blogUrl = `${window.location.origin}/blog/${blog.id}`;
-              window.open(blogUrl, '_blank', 'noopener,noreferrer');
-            }}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary text-primary hover:bg-primary/20 transition-all terminal-text"
+            onClick={handleLike}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+              liked
+                ? 'bg-primary/20 border-primary text-primary'
+                : 'bg-muted border-border text-muted-foreground hover:border-primary'
+            }`}
           >
-            <ExternalLink className="w-4 h-4" />
-            <span className="font-semibold">View in New Window</span>
+            <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
+            <span className="terminal-text font-semibold">{likesCount}</span>
           </motion.button>
+
+          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted border border-border">
+            <MessageCircle className="w-5 h-5 text-muted-foreground" />
+            <span className="terminal-text font-semibold text-muted-foreground">
+              {comments.length}
+            </span>
+          </div>
         </div>
 
         {/* Comments Section */}
