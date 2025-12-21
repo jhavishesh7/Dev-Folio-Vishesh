@@ -43,9 +43,9 @@ const App = () => {
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
-    // Remove hash immediately
+    // Remove hash immediately and prevent any scroll to contact
     if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
     // Force scroll to top
     window.scrollTo(0, 0);
@@ -61,8 +61,27 @@ const App = () => {
       document.body.scrollTop = 0;
       // Remove any hash from URL that might cause scrolling
       if (window.location.hash) {
-        window.history.replaceState(null, '', window.location.pathname);
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
       }
+      
+      // Additional protection: prevent automatic scroll to contact for a few more seconds
+      let scrollPreventionCount = 0;
+      const preventContactScroll = setInterval(() => {
+        // Only remove contact hash, don't prevent all scrolling
+        if (window.location.hash && window.location.hash.includes('contact')) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          // If we're scrolled down and there was a contact hash, scroll back to top
+          if (window.scrollY > 100) {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+          }
+        }
+        scrollPreventionCount++;
+        if (scrollPreventionCount >= 30) { // Run for ~3 seconds (30 * 100ms)
+          clearInterval(preventContactScroll);
+        }
+      }, 100);
     }, 100);
   };
 

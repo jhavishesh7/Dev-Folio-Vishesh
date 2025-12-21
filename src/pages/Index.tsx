@@ -32,7 +32,10 @@ const Index = () => {
 
     // AGGRESSIVE hash prevention - run immediately
     const removeHashAndScrollTop = () => {
-      if (window.location.hash) {
+      // Specifically prevent #contact hash from causing scroll
+      if (window.location.hash && window.location.hash.includes('contact')) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } else if (window.location.hash) {
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
       }
       window.scrollTo(0, 0);
@@ -43,20 +46,26 @@ const Index = () => {
     // Run immediately and repeatedly
     removeHashAndScrollTop();
     
-    // Run on every possible timing
+    // Run on every possible timing for longer period to catch post-loading scroll
     const timers: NodeJS.Timeout[] = [];
-    for (let i = 0; i <= 2000; i += 50) {
+    for (let i = 0; i <= 5000; i += 50) {
       timers.push(setTimeout(removeHashAndScrollTop, i));
     }
 
-    // Prevent hash navigation for first 2 seconds
+    // Prevent hash navigation for first 5 seconds (longer to catch post-loading scroll)
     let allowHashNav = false;
     const enableNav = setTimeout(() => {
       allowHashNav = true;
-    }, 2000);
+    }, 5000);
 
     // Block all hash changes during initial load
     const blockHashChange = (e: HashChangeEvent) => {
+      // Always block #contact hash navigation
+      if (window.location.hash && window.location.hash.includes('contact')) {
+        e.preventDefault();
+        removeHashAndScrollTop();
+        return;
+      }
       if (!allowHashNav) {
         e.preventDefault();
         removeHashAndScrollTop();
@@ -67,17 +76,31 @@ const Index = () => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchor = target.closest('a[href^="#"]');
-      if (anchor && !allowHashNav) {
-        e.preventDefault();
-        e.stopPropagation();
-        removeHashAndScrollTop();
+      // Always prevent #contact links from scrolling during initial load
+      if (anchor) {
+        const href = anchor.getAttribute('href');
+        if (href && href.includes('contact') && !allowHashNav) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeHashAndScrollTop();
+          return;
+        }
+        if (!allowHashNav) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeHashAndScrollTop();
+        }
       }
     };
 
-    // Continuous scroll prevention
+    // Continuous scroll prevention - prevent scroll to contact section
     let scrollCheckInterval: NodeJS.Timeout;
     const startScrollCheck = () => {
       scrollCheckInterval = setInterval(() => {
+        // If there's a contact hash, remove it and scroll to top
+        if (window.location.hash && window.location.hash.includes('contact')) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
         if (!allowHashNav && (window.scrollY > 100 || document.documentElement.scrollTop > 100)) {
           window.scrollTo(0, 0);
           document.documentElement.scrollTop = 0;
