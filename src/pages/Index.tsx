@@ -1,4 +1,5 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Hero from "@/components/Hero";
 
 // Lazy load components for better performance
@@ -7,6 +8,7 @@ const Skills = lazy(() => import("@/components/Skills"));
 const Projects = lazy(() => import("@/components/Projects"));
 const Experience = lazy(() => import("@/components/Experience"));
 const Education = lazy(() => import("@/components/Education"));
+const Blog = lazy(() => import("@/components/Blog"));
 const Contact = lazy(() => import("@/components/Contact"));
 
 // Loading fallback component
@@ -17,6 +19,86 @@ const SectionLoader = () => (
 );
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    // Handle blog query parameter redirect
+    const blogId = searchParams.get('blog');
+    if (blogId) {
+      navigate(`/blog/${blogId}`, { replace: true });
+      return;
+    }
+
+    // AGGRESSIVE hash prevention - run immediately
+    const removeHashAndScrollTop = () => {
+      if (window.location.hash) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    // Run immediately and repeatedly
+    removeHashAndScrollTop();
+    
+    // Run on every possible timing
+    const timers: NodeJS.Timeout[] = [];
+    for (let i = 0; i <= 2000; i += 50) {
+      timers.push(setTimeout(removeHashAndScrollTop, i));
+    }
+
+    // Prevent hash navigation for first 2 seconds
+    let allowHashNav = false;
+    const enableNav = setTimeout(() => {
+      allowHashNav = true;
+    }, 2000);
+
+    // Block all hash changes during initial load
+    const blockHashChange = (e: HashChangeEvent) => {
+      if (!allowHashNav) {
+        e.preventDefault();
+        removeHashAndScrollTop();
+      }
+    };
+
+    // Intercept anchor clicks
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a[href^="#"]');
+      if (anchor && !allowHashNav) {
+        e.preventDefault();
+        e.stopPropagation();
+        removeHashAndScrollTop();
+      }
+    };
+
+    // Continuous scroll prevention
+    let scrollCheckInterval: NodeJS.Timeout;
+    const startScrollCheck = () => {
+      scrollCheckInterval = setInterval(() => {
+        if (!allowHashNav && (window.scrollY > 100 || document.documentElement.scrollTop > 100)) {
+          window.scrollTo(0, 0);
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        }
+      }, 10);
+    };
+    startScrollCheck();
+
+    window.addEventListener('hashchange', blockHashChange, true);
+    document.addEventListener('click', handleClick, true);
+
+    return () => {
+      clearTimeout(enableNav);
+      timers.forEach(clearTimeout);
+      clearInterval(scrollCheckInterval);
+      window.removeEventListener('hashchange', blockHashChange, true);
+      document.removeEventListener('click', handleClick, true);
+    };
+  }, [navigate, searchParams]);
+
   return (
     <div className="relative w-full overflow-hidden">
       <Hero />
@@ -34,6 +116,9 @@ const Index = () => {
       </Suspense>
       <Suspense fallback={<SectionLoader />}>
         <Education />
+      </Suspense>
+      <Suspense fallback={<SectionLoader />}>
+        <Blog />
       </Suspense>
       <Suspense fallback={<SectionLoader />}>
         <Contact />

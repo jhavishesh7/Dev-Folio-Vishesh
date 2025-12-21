@@ -4,6 +4,13 @@ import { Building2, Calendar } from "lucide-react";
 const Experience = () => {
   const experiences = [
     {
+      company: "San Micron",
+      role: "Software Engineer",
+      period: "2024 - Present",
+      description: "Working with Symfony and other subsystems to develop and maintain enterprise-level software solutions",
+      type: "Work",
+    },
+    {
       company: "BlackBytes",
       role: "Founder & CEO",
       period: "2023 - Present",

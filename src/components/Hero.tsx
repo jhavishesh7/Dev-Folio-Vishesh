@@ -39,6 +39,14 @@ const Hero = () => {
     });
   };
 
+  const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const contactSection = document.querySelector('#contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* 3D Background - Optimized */}
@@ -128,6 +136,7 @@ const Hero = () => {
             
             <motion.a
               href="#contact"
+              onClick={scrollToContact}
               whileHover={{ 
                 scale: 1.08,
                 boxShadow: "0 0 30px rgba(168, 85, 247, 0.6)",
@@ -135,7 +144,7 @@ const Hero = () => {
               }}
               whileTap={{ scale: 0.95 }}
               className="px-6 sm:px-8 py-3 border-2 border-accent text-accent rounded-lg font-semibold text-base sm:text-lg
-                         hover:bg-accent hover:text-accent-foreground transition-all neon-border-violet relative overflow-hidden group w-full sm:w-auto"
+                         hover:bg-accent hover:text-accent-foreground transition-all neon-border-violet relative overflow-hidden group w-full sm:w-auto cursor-pointer"
             >
               <motion.span
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/20 to-transparent opacity-0 group-hover:opacity-100"

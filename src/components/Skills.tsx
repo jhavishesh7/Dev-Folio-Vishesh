@@ -1,11 +1,197 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import FloatingOrb from "./3D/FloatingOrb";
+import { useState, useEffect, useRef } from "react";
+import { Badge } from "./ui/badge";
 
 const Skills = () => {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mousePosRef = useRef({ x: 0, y: 0 });
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const updateCanvasSize = () => {
+      const rect = section.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    };
+
+    updateCanvasSize();
+
+    // Particle system for neural network effect
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+      baseOpacity: number;
+    }> = [];
+
+    const particleCount = 100;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.5 + 0.2,
+        baseOpacity: Math.random() * 0.5 + 0.2,
+      });
+    }
+
+    let animationFrameId: number;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = section.getBoundingClientRect();
+      mousePosRef.current = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      };
+    };
+
+    const handleMouseLeave = () => {
+      mousePosRef.current = { x: -1000, y: -1000 };
+    };
+
+    section.addEventListener('mousemove', handleMouseMove);
+    section.addEventListener('mouseleave', handleMouseLeave);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const mouseX = mousePosRef.current.x;
+      const mouseY = mousePosRef.current.y;
+      const mouseRadius = 150; // Radius of mouse influence
+      
+      // Update and draw particles
+      particles.forEach((particle, i) => {
+        // Mouse interaction - particles are repelled by mouse
+        const dx = particle.x - mouseX;
+        const dy = particle.y - mouseY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouseRadius && distance > 0) {
+          const force = (mouseRadius - distance) / mouseRadius;
+          const angle = Math.atan2(dy, dx);
+          const repulsionStrength = force * 2;
+          
+          particle.vx += Math.cos(angle) * repulsionStrength * 0.1;
+          particle.vy += Math.sin(angle) * repulsionStrength * 0.1;
+          
+          // Increase opacity when near mouse
+          particle.opacity = Math.min(1, particle.baseOpacity + force * 0.5);
+        } else {
+          // Gradually return to base opacity
+          particle.opacity += (particle.baseOpacity - particle.opacity) * 0.05;
+        }
+
+        // Apply velocity with damping
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vx *= 0.98;
+        particle.vy *= 0.98;
+
+        // Wrap around edges
+        if (particle.x < 0) {
+          particle.x = canvas.width;
+          particle.vx *= -0.5;
+        }
+        if (particle.x > canvas.width) {
+          particle.x = 0;
+          particle.vx *= -0.5;
+        }
+        if (particle.y < 0) {
+          particle.y = canvas.height;
+          particle.vy *= -0.5;
+        }
+        if (particle.y > canvas.height) {
+          particle.y = 0;
+          particle.vy *= -0.5;
+        }
+
+        // Draw particle with glow effect
+        const gradient = ctx.createRadialGradient(
+          particle.x, particle.y, 0,
+          particle.x, particle.y, particle.size * 3
+        );
+        gradient.addColorStop(0, `rgba(0, 240, 255, ${particle.opacity})`);
+        gradient.addColorStop(0.5, `rgba(0, 240, 255, ${particle.opacity * 0.5})`);
+        gradient.addColorStop(1, `rgba(0, 240, 255, 0)`);
+        
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Draw core particle
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 240, 255, ${particle.opacity})`;
+        ctx.fill();
+
+        // Draw connections (neural network effect) - enhanced near mouse
+        particles.slice(i + 1).forEach((otherParticle) => {
+          const dx = particle.x - otherParticle.x;
+          const dy = particle.y - otherParticle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            // Check if connection is near mouse for enhanced visibility
+            const midX = (particle.x + otherParticle.x) / 2;
+            const midY = (particle.y + otherParticle.y) / 2;
+            const distToMouse = Math.sqrt(
+              Math.pow(midX - mouseX, 2) + Math.pow(midY - mouseY, 2)
+            );
+            
+            let connectionOpacity = 0.1 * (1 - distance / 150);
+            if (distToMouse < mouseRadius) {
+              connectionOpacity = Math.min(0.6, connectionOpacity * 3);
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(otherParticle.x, otherParticle.y);
+            ctx.strokeStyle = `rgba(0, 240, 255, ${connectionOpacity})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    const handleResize = () => {
+      updateCanvasSize();
+      // Reposition particles if canvas size changed
+      particles.forEach((particle) => {
+        if (particle.x > canvas.width) particle.x = canvas.width;
+        if (particle.y > canvas.height) particle.y = canvas.height;
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
+      section.removeEventListener('mousemove', handleMouseMove);
+      section.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
 
   const skillCategories = [
     {
@@ -51,26 +237,28 @@ const Skills = () => {
         { name: "Hardhat", level: 80 },
       ],
     },
+    {
+      category: "Low-Level",
+      color: "border-accent",
+      glowClass: "neon-border-violet",
+      skills: [
+        { name: "Assembly", level: 25, isLearning: true },
+      ],
+    },
   ];
 
   return (
-    <section id="skills" className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
-      {/* 3D Skill Orbs Background - Optimized */}
-      <div className="absolute inset-0 z-0 opacity-30">
-        <Canvas dpr={[1, 1.5]} performance={{ min: 0.5 }}>
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
-          <ambientLight intensity={0.4} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#00f0ff" />
-          <pointLight position={[-10, -10, -10]} intensity={0.8} color="#a855f7" />
-          
-          {/* Tech orbs floating around */}
-          <FloatingOrb position={[-4, 3, 0]} color="#00f0ff" scale={0.6} />
-          <FloatingOrb position={[4, 2, 0]} color="#a855f7" scale={0.5} />
-          <FloatingOrb position={[-3, -2, 1]} color="#f97316" scale={0.4} />
-          <FloatingOrb position={[3, -3, -1]} color="#00f0ff" scale={0.5} />
-          <FloatingOrb position={[0, 4, -2]} color="#a855f7" scale={0.3} />
-        </Canvas>
-      </div>
+    <section 
+      ref={sectionRef}
+      id="skills" 
+      className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden"
+    >
+      {/* Interactive Neural Network / Particle Background */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 z-0 opacity-40"
+        style={{ width: '100%', height: '100%' }}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -104,7 +292,8 @@ const Skills = () => {
               <h3 className={`text-2xl font-bold mb-6 terminal-text ${
                 category.category === "Frontend" ? "text-primary" :
                 category.category === "Backend" ? "text-secondary" :
-                category.category === "AI/ML" ? "text-accent" : "text-primary"
+                category.category === "AI/ML" ? "text-accent" :
+                category.category === "Low-Level" ? "text-accent" : "text-primary"
               }`}>
                 {category.category}
               </h3>
@@ -121,8 +310,15 @@ const Skills = () => {
                     onMouseLeave={() => setHoveredSkill(null)}
                     className="relative"
                   >
-                    <div className="flex justify-between mb-2">
-                      <span className="text-sm font-medium terminal-text">{skill.name}</span>
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium terminal-text">{skill.name}</span>
+                        {(skill as any).isLearning && (
+                          <Badge variant="outline" className="text-xs px-2 py-0 border-accent text-accent">
+                            Currently Learning
+                          </Badge>
+                        )}
+                      </div>
                       <span className="text-xs text-muted-foreground">{skill.level}%</span>
                     </div>
                     
@@ -139,7 +335,8 @@ const Skills = () => {
                         className={`h-full rounded-full relative overflow-hidden ${
                           category.category === "Frontend" ? "bg-gradient-to-r from-primary via-primary/70 to-primary" :
                           category.category === "Backend" ? "bg-gradient-to-r from-secondary via-secondary/70 to-secondary" :
-                          category.category === "AI/ML" ? "bg-gradient-to-r from-accent via-accent/70 to-accent" : 
+                          category.category === "AI/ML" ? "bg-gradient-to-r from-accent via-accent/70 to-accent" :
+                          category.category === "Low-Level" ? "bg-gradient-to-r from-accent via-accent/70 to-accent" :
                           "bg-gradient-to-r from-primary via-primary/70 to-primary"
                         } ${hoveredSkill === skill.name ? "animate-pulse-glow" : ""}`}
                       >

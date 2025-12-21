@@ -11,6 +11,24 @@
     <meta property="og:title" content="Vishesh Jha - Developer Portfolio" />
     <meta property="og:description" content="Software Developer, AI Researcher & Blockchain Architect specializing in cutting-edge technologies" />
     <meta property="og:type" content="website" />
+    
+    <!-- Prevent hash scroll BEFORE React loads -->
+    <script>
+      (function() {
+        if (window.location.hash) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+        window.scrollTo(0, 0);
+        var preventScroll = setInterval(function() {
+          if (window.scrollY > 100) {
+            window.scrollTo(0, 0);
+          }
+        }, 10);
+        setTimeout(function() {
+          clearInterval(preventScroll);
+        }, 2000);
+      })();
+    </script>
   </head>
 
   <body>
