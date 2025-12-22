@@ -215,32 +215,32 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-primary/30 neon-border-cyan">
+      <DialogContent className="max-w-[95vw] sm:max-w-2xl md:max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-card border-primary/30 neon-border-cyan p-4 sm:p-6 mx-2 sm:mx-0">
         <DialogHeader>
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div className="flex-1">
-              <DialogTitle className="text-2xl sm:text-3xl terminal-text glow-text-cyan">
-                {blog.title}
-              </DialogTitle>
-              <DialogDescription className="text-muted-foreground">
-                <div className="flex flex-wrap items-center gap-4 mt-2">
-                  {blog.author && (
-                    <span className="terminal-text text-sm">
-                      <span className="text-primary">Author:</span> {blog.author}
-                    </span>
-                  )}
-                  <div className="flex items-center gap-2 text-sm">
-                    <Calendar className="w-4 h-4" />
-                    <span className="terminal-text">
-                      {format(new Date(blog.published_at || blog.created_at), 'MMM dd, yyyy')}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <Clock className="w-4 h-4" />
-                    <span className="terminal-text">{readTime} min read</span>
-                  </div>
-                </div>
-              </DialogDescription>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-4">
+            <div className="flex-1 min-w-0">
+          <DialogTitle className="text-xl sm:text-2xl md:text-3xl terminal-text glow-text-cyan break-words">
+            {blog.title}
+          </DialogTitle>
+          <DialogDescription className="text-muted-foreground">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-4 mt-2">
+              {blog.author && (
+                <span className="terminal-text text-xs sm:text-sm truncate">
+                  <span className="text-primary">Author:</span> {blog.author}
+                </span>
+              )}
+              <div className="flex items-center gap-2 text-xs sm:text-sm">
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="terminal-text">
+                  {format(new Date(blog.published_at || blog.created_at), 'MMM dd, yyyy')}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-xs sm:text-sm">
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="terminal-text">{readTime} min read</span>
+              </div>
+            </div>
+          </DialogDescription>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               {/* View in New Window Button - Moved to top */}
@@ -251,9 +251,9 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
                   const blogUrl = `${window.location.origin}/blog/${blog.id}`;
                   window.open(blogUrl, '_blank', 'noopener,noreferrer');
                 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary text-primary hover:bg-primary/20 transition-all terminal-text"
+                className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 rounded-lg bg-primary/10 border border-primary text-primary hover:bg-primary/20 transition-all terminal-text text-xs sm:text-sm"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="font-semibold hidden sm:inline">View in New Window</span>
                 <span className="font-semibold sm:hidden">New Window</span>
               </motion.button>
@@ -264,9 +264,9 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setShowShareMenu(!showShareMenu)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary/10 border border-secondary text-secondary hover:bg-secondary/20 transition-all terminal-text"
+                  className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 rounded-lg bg-secondary/10 border border-secondary text-secondary hover:bg-secondary/20 transition-all terminal-text text-xs sm:text-sm"
                 >
-                  <Share2 className="w-4 h-4" />
+                  <Share2 className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                   <span className="font-semibold hidden sm:inline">Share</span>
                 </motion.button>
 
@@ -278,21 +278,21 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden"
+                      className="absolute right-0 mt-2 w-40 sm:w-48 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden"
                     >
                       <button
                         onClick={handleCopyLink}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted transition-colors terminal-text"
+                        className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-muted transition-colors terminal-text text-xs sm:text-sm"
                       >
                         {copied ? (
                           <>
-                            <Check className="w-4 h-4 text-green-500" />
-                            <span className="text-sm">Link Copied!</span>
+                            <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                            <span>Link Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-4 h-4" />
-                            <span className="text-sm">Copy Link</span>
+                            <Copy className="w-4 h-4 flex-shrink-0" />
+                            <span>Copy Link</span>
                           </>
                         )}
                       </button>
@@ -309,7 +309,7 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full h-64 sm:h-80 rounded-lg overflow-hidden mb-6 relative"
+            className="w-full h-48 sm:h-64 md:h-80 rounded-lg overflow-hidden mb-4 sm:mb-6 relative"
           >
             <img
               src={blog.cover_image}
@@ -322,11 +322,11 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
 
         {/* Tags */}
         {blog.tags && blog.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
             {blog.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 text-xs rounded-full bg-muted text-muted-foreground 
+                className="px-2 sm:px-3 py-1 text-xs rounded-full bg-muted text-muted-foreground 
                          border border-border terminal-text"
               >
                 #{tag}
@@ -340,54 +340,54 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="max-w-none mb-8 blog-content"
+          className="max-w-none mb-6 sm:mb-8 blog-content"
         >
           <div 
-            className="text-muted-foreground leading-relaxed"
+            className="text-sm sm:text-base text-muted-foreground leading-relaxed prose prose-invert max-w-none"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         </motion.div>
 
         {/* Like and Comment Actions */}
-        <div className="flex items-center gap-4 mb-6 border-t border-border pt-6">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleLike}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
-              liked
-                ? 'bg-primary/20 border-primary text-primary'
-                : 'bg-muted border-border text-muted-foreground hover:border-primary'
-            }`}
-          >
-            <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
-            <span className="terminal-text font-semibold">{likesCount}</span>
-          </motion.button>
+        <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 border-t border-border pt-4 sm:pt-6">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleLike}
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg border transition-all text-sm sm:text-base ${
+                liked
+                  ? 'bg-primary/20 border-primary text-primary'
+                  : 'bg-muted border-border text-muted-foreground hover:border-primary'
+              }`}
+            >
+              <Heart className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 ${liked ? 'fill-current' : ''}`} />
+              <span className="terminal-text font-semibold">{likesCount}</span>
+            </motion.button>
 
-          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted border border-border">
-            <MessageCircle className="w-5 h-5 text-muted-foreground" />
-            <span className="terminal-text font-semibold text-muted-foreground">
-              {comments.length}
-            </span>
-          </div>
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-muted border border-border">
+              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground flex-shrink-0" />
+              <span className="terminal-text font-semibold text-muted-foreground text-sm sm:text-base">
+                {comments.length}
+              </span>
+            </div>
         </div>
 
         {/* Comments Section */}
-        <div className="border-t border-border pt-6">
-          <h3 className="text-xl font-bold mb-4 terminal-text glow-text-cyan">
+        <div className="border-t border-border pt-4 sm:pt-6">
+          <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 terminal-text glow-text-cyan">
             Comments ({comments.length})
           </h3>
 
           {/* Comment Form */}
-          <form onSubmit={handleSubmitComment} className="mb-6 space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmitComment} className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <Input
                   placeholder="Your Name *"
                   value={commentForm.user_name}
                   onChange={(e) => setCommentForm({ ...commentForm, user_name: e.target.value })}
                   required
-                  className="terminal-text"
+                  className="terminal-text text-sm sm:text-base"
                 />
                 <p className="text-xs text-muted-foreground mt-1 terminal-text">
                   Just your name is required - no login needed!
@@ -398,7 +398,7 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
                 placeholder="Email (optional)"
                 value={commentForm.user_email}
                 onChange={(e) => setCommentForm({ ...commentForm, user_email: e.target.value })}
-                className="terminal-text"
+                className="terminal-text text-sm sm:text-base"
               />
             </div>
             <Textarea
@@ -407,12 +407,12 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
               onChange={(e) => setCommentForm({ ...commentForm, content: e.target.value })}
               required
               rows={4}
-              className="terminal-text"
+              className="terminal-text text-sm sm:text-base"
             />
             <Button
               type="submit"
               disabled={submitting || !commentForm.content.trim() || !commentForm.user_name.trim()}
-              className="terminal-text"
+              className="terminal-text w-full sm:w-auto text-sm sm:text-base"
             >
               {submitting ? (
                 <>
@@ -430,27 +430,27 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
 
           {/* Comments List */}
           {loading ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            <div className="flex items-center justify-center py-6 sm:py-8">
+              <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-primary" />
             </div>
           ) : comments.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              <MessageCircle className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p className="terminal-text">No comments yet. Be the first to comment!</p>
+            <div className="text-center py-6 sm:py-8 text-muted-foreground">
+              <MessageCircle className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 opacity-50" />
+              <p className="terminal-text text-sm sm:text-base">No comments yet. Be the first to comment!</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {comments.map((comment, index) => (
                 <motion.div
                   key={comment.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-4 rounded-lg bg-muted/50 border border-border"
+                  className="p-3 sm:p-4 rounded-lg bg-muted/50 border border-border"
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <div>
-                      <h4 className="font-semibold terminal-text text-primary">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold terminal-text text-primary text-sm sm:text-base truncate">
                         {comment.user_name}
                       </h4>
                       <p className="text-xs text-muted-foreground terminal-text">
@@ -458,7 +458,7 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
                       </p>
                     </div>
                   </div>
-                  <p className="text-muted-foreground terminal-text mt-2 whitespace-pre-wrap">
+                  <p className="text-sm sm:text-base text-muted-foreground terminal-text mt-2 whitespace-pre-wrap break-words">
                     {comment.content}
                   </p>
                 </motion.div>

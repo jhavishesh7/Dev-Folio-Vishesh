@@ -312,22 +312,23 @@ All colors MUST be HSL.
   }
 
   .blog-content h1 {
-    font-size: 2.25em;
+    font-size: clamp(1.5em, 4vw, 2.25em);
     border-bottom: 2px solid hsl(var(--border));
     padding-bottom: 0.5em;
   }
 
   .blog-content h2 {
-    font-size: 1.875em;
+    font-size: clamp(1.25em, 3.5vw, 1.875em);
   }
 
   .blog-content h3 {
-    font-size: 1.5em;
+    font-size: clamp(1.125em, 3vw, 1.5em);
   }
 
   .blog-content p {
     margin-bottom: 1em;
     line-height: 1.7;
+    font-size: clamp(0.875rem, 2vw, 1rem);
   }
 
   /* List styles - Target all possible list structures */
@@ -443,6 +444,7 @@ All colors MUST be HSL.
     height: auto;
     border-radius: 0.5rem;
     margin: 1.5em 0;
+    display: block;
   }
 
   .blog-content hr {
@@ -453,8 +455,18 @@ All colors MUST be HSL.
 
   .blog-content table {
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     margin: 1.5em 0;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (min-width: 640px) {
+    .blog-content table {
+      display: table;
+    }
   }
 
   .blog-content th,

@@ -178,7 +178,7 @@ const Blog = () => {
         )}
 
         {!loading && !error && blogs.length > 0 && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {blogs.map((blog, index) => {
               const readTime = blog.read_time || getReadTime(blog.content);
               const publishedDate = blog.published_at || blog.created_at;
@@ -212,7 +212,7 @@ const Blog = () => {
                   />
                   
                   <motion.div 
-                    className={`relative p-6 rounded-xl bg-card/80 border border-border 
+                    className={`relative p-4 sm:p-6 rounded-xl bg-card/80 border border-border 
                                 hover:border-primary transition-all duration-300 ${getTechyGlow(index)}
                                 backdrop-blur-md h-full flex flex-col shadow-2xl`}
                     whileHover={{ 
@@ -223,7 +223,7 @@ const Blog = () => {
                     {/* Cover Image */}
                     {blog.cover_image && (
                       <motion.div
-                        className="w-full h-48 mb-4 rounded-lg overflow-hidden relative"
+                        className="w-full h-40 sm:h-48 mb-3 sm:mb-4 rounded-lg overflow-hidden relative"
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}
                       >
@@ -237,18 +237,18 @@ const Blog = () => {
                     )}
 
                     {/* Title */}
-                    <h3 className="text-xl sm:text-2xl font-bold mb-3 terminal-text group-hover:glow-text-cyan transition-all line-clamp-2">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 terminal-text group-hover:glow-text-cyan transition-all line-clamp-2">
                       {blog.title}
                     </h3>
                     
                     {/* Excerpt */}
-                    <p className="text-muted-foreground mb-4 leading-relaxed flex-grow line-clamp-3 text-sm sm:text-base">
+                    <p className="text-muted-foreground mb-3 sm:mb-4 leading-relaxed flex-grow line-clamp-3 text-xs sm:text-sm md:text-base">
                       {blog.excerpt || blog.content.substring(0, 150) + '...'}
                     </p>
 
                     {/* Tags */}
                     {blog.tags && blog.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                         {blog.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
@@ -262,34 +262,34 @@ const Blog = () => {
                     )}
 
                     {/* Meta Info */}
-                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-4 border-t border-border pt-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 text-xs text-muted-foreground mb-3 sm:mb-4 border-t border-border pt-3 sm:pt-4">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-3 h-3" />
-                        <span className="terminal-text">
+                        <Calendar className="w-3 h-3 flex-shrink-0" />
+                        <span className="terminal-text truncate">
                           {format(new Date(publishedDate), 'MMM dd, yyyy')}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-3 h-3" />
+                        <Clock className="w-3 h-3 flex-shrink-0" />
                         <span className="terminal-text">{readTime} min read</span>
                       </div>
                     </div>
 
                     {/* Author */}
                     {blog.author && (
-                      <div className="text-xs text-muted-foreground mb-4 terminal-text">
+                      <div className="text-xs text-muted-foreground mb-3 sm:mb-4 terminal-text truncate">
                         <span className="text-primary">Author:</span> {blog.author}
                       </div>
                     )}
 
                     {/* Likes and Comments Count */}
-                    <div className="flex items-center gap-4 mb-4 text-sm">
+                    <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4 text-xs sm:text-sm">
                       <div className="flex items-center gap-1 text-muted-foreground">
-                        <Heart className="w-4 h-4" />
+                        <Heart className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                         <span className="terminal-text">{blog.likes_count || 0}</span>
                       </div>
                       <div className="flex items-center gap-1 text-muted-foreground">
-                        <MessageCircle className="w-4 h-4" />
+                        <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                         <span className="terminal-text">{blog.comments_count || 0}</span>
                       </div>
                     </div>
@@ -299,10 +299,10 @@ const Blog = () => {
                       whileHover={{ scale: 1.05, x: 5 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleReadArticle(blog)}
-                      className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors mt-auto group/btn"
+                      className="flex items-center gap-2 text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors mt-auto group/btn w-full sm:w-auto"
                     >
                       <span className="terminal-text">Read Article</span>
-                      <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover/btn:translate-x-1 transition-transform flex-shrink-0" />
                     </motion.button>
                   </motion.div>
                 </motion.div>
