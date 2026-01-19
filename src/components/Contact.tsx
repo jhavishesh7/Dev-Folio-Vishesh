@@ -57,8 +57,8 @@ const Contact = () => {
     {
       icon: Mail,
       label: "Email",
-      value: "7da51cfad2326b9777f844252b4fd184",
-      href: "mailto:7da51cfad2326b9777f844252b4fd184",
+      value: "jhavishesh7@gmail.com",
+      href: "mailto:jhavishesh7@gmail.com",
       color: "text-primary",
     },
     {
@@ -224,7 +224,6 @@ const Contact = () => {
                       onKeyDown={handleTerminalKeyPress}
                       className="flex-1 bg-transparent border-none outline-none text-foreground font-mono min-w-0"
                       placeholder="initiate contact"
-                      autoFocus
                     />
                     <span className="animate-pulse">_</span>
                   </>

@@ -28,7 +28,7 @@ const App = () => {
       // Ensure we're at top during loading
       window.scrollTo({ top: 0, behavior: 'instant' });
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = 'auto';
     }
   }, [isLoading]);
 
@@ -39,6 +39,9 @@ const App = () => {
     }
     // Ensure page starts at top on mount
     window.scrollTo({ top: 0, behavior: 'instant' });
+    if (window.location.hash && window.location.hash.includes('contact')) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
   }, []);
 
   const handleLoadingComplete = () => {
@@ -63,25 +66,6 @@ const App = () => {
       if (window.location.hash) {
         window.history.replaceState(null, '', window.location.pathname + window.location.search);
       }
-      
-      // Additional protection: prevent automatic scroll to contact for a few more seconds
-      let scrollPreventionCount = 0;
-      const preventContactScroll = setInterval(() => {
-        // Only remove contact hash, don't prevent all scrolling
-        if (window.location.hash && window.location.hash.includes('contact')) {
-          window.history.replaceState(null, '', window.location.pathname + window.location.search);
-          // If we're scrolled down and there was a contact hash, scroll back to top
-          if (window.scrollY > 100) {
-            window.scrollTo(0, 0);
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-          }
-        }
-        scrollPreventionCount++;
-        if (scrollPreventionCount >= 30) { // Run for ~3 seconds (30 * 100ms)
-          clearInterval(preventContactScroll);
-        }
-      }, 100);
     }, 100);
   };
 
