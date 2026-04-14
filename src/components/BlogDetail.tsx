@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import MarkdownPreview from "@/components/admin/MarkdownPreview";
 import { Heart, MessageCircle, Calendar, Clock, X, Send, Loader2, ExternalLink, Share2, Copy, Check } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -342,10 +343,17 @@ const BlogDetail = ({ blog, isOpen, onClose, onLikeUpdate }: BlogDetailProps) =>
           transition={{ delay: 0.2 }}
           className="max-w-none mb-6 sm:mb-8 blog-content"
         >
-          <div 
-            className="text-sm sm:text-base text-muted-foreground leading-relaxed prose prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
-          />
+          {/* Detect if content is markdown (no HTML tags) or HTML */}
+          {blog.content.startsWith('#') || blog.content.startsWith('```') || blog.content.startsWith('---') || !/<[a-z][\s\S]*>/i.test(blog.content.slice(0, 200)) ? (
+            <div className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <MarkdownPreview content={blog.content} />
+            </div>
+          ) : (
+            <div 
+              className="text-sm sm:text-base text-muted-foreground leading-relaxed prose prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: blog.content }}
+            />
+          )}
         </motion.div>
 
         {/* Like and Comment Actions */}

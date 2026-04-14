@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Save, ArrowLeft, Upload, Loader2, Terminal, X } from "lucide-react";
+import { Save, ArrowLeft, Upload, Loader2, Terminal, X, FileText, Code2 } from "lucide-react";
 import { supabase, BlogPost } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import RichTextEditor from "@/components/admin/RichTextEditor";
+import MarkdownEditor from "@/components/admin/MarkdownEditor";
 import { uploadImage, fileToBase64 } from "@/lib/storage";
 import { useToast } from "@/hooks/use-toast";
 
@@ -30,6 +31,7 @@ const BlogEditor = () => {
     cover_image: "",
     read_time: "",
   });
+  const [editorMode, setEditorMode] = useState<"richtext" | "markdown">("richtext");
 
   useEffect(() => {
     if (isEditing) {
@@ -342,15 +344,53 @@ const BlogEditor = () => {
 
             {/* Content */}
             <div>
-              <Label className="terminal-text">Content *</Label>
+              <div className="flex items-center justify-between mb-2">
+                <Label className="terminal-text">Content *</Label>
+                <div className="flex items-center gap-1 p-0.5 bg-muted rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => setEditorMode("richtext")}
+                    className={`px-3 py-1.5 text-xs terminal-text rounded-md transition-all flex items-center gap-1.5 ${
+                      editorMode === "richtext"
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Code2 className="w-3 h-3" />
+                    Rich Text
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditorMode("markdown")}
+                    className={`px-3 py-1.5 text-xs terminal-text rounded-md transition-all flex items-center gap-1.5 ${
+                      editorMode === "markdown"
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <FileText className="w-3 h-3" />
+                    Markdown
+                  </button>
+                </div>
+              </div>
               <div className="mt-2">
-                <RichTextEditor
-                  content={formData.content}
-                  onChange={(content) =>
-                    setFormData((prev) => ({ ...prev, content }))
-                  }
-                  placeholder="Start writing your blog post..."
-                />
+                {editorMode === "richtext" ? (
+                  <RichTextEditor
+                    content={formData.content}
+                    onChange={(content) =>
+                      setFormData((prev) => ({ ...prev, content }))
+                    }
+                    placeholder="Start writing your blog post..."
+                  />
+                ) : (
+                  <MarkdownEditor
+                    content={formData.content}
+                    onChange={(content) =>
+                      setFormData((prev) => ({ ...prev, content }))
+                    }
+                    placeholder="Paste or type your markdown here..."
+                  />
+                )}
               </div>
             </div>
 

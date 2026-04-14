@@ -1,3 +1,6 @@
+@import url('https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css');
+@import url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

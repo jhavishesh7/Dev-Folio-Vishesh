@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import MarkdownPreview from "@/components/admin/MarkdownPreview";
 
 const BlogPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -294,10 +295,16 @@ const BlogPage = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-none mb-12 blog-content"
         >
-          <div 
-            className="text-muted-foreground leading-relaxed text-base sm:text-lg"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
-          />
+          {blog.content.startsWith('#') || blog.content.startsWith('```') || blog.content.startsWith('---') || !/<[a-z][\s\S]*>/i.test(blog.content.slice(0, 200)) ? (
+            <div className="text-muted-foreground leading-relaxed text-base sm:text-lg">
+              <MarkdownPreview content={blog.content} />
+            </div>
+          ) : (
+            <div 
+              className="text-muted-foreground leading-relaxed text-base sm:text-lg"
+              dangerouslySetInnerHTML={{ __html: blog.content }}
+            />
+          )}
         </motion.div>
 
         {/* Like and Comment Actions */}
