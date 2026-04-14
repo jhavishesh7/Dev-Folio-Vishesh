@@ -14,6 +14,7 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import BlogList from "./pages/admin/BlogList";
 import BlogEditor from "./pages/admin/BlogEditor";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
+import SmoothScroll from "@/components/ui/SmoothScroll";
 
 const queryClient = new QueryClient();
 
@@ -77,44 +78,46 @@ const App = () => {
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/loading-demo" element={<LoadingDemo />} />
-                <Route path="/genesis-pulse" element={<GenesisPulseDemo />} />
-                <Route path="/blog/:id" element={<BlogPage />} />
-                
-                {/* Admin Routes */}
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route
-                  path="/admin/blogs"
-                  element={
-                    <ProtectedRoute>
-                      <BlogList />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/blogs/new"
-                  element={
-                    <ProtectedRoute>
-                      <BlogEditor />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/blogs/:id"
-                  element={
-                    <ProtectedRoute>
-                      <BlogEditor />
-                    </ProtectedRoute>
-                  }
-                />
-                
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
+            <SmoothScroll>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/loading-demo" element={<LoadingDemo />} />
+                  <Route path="/genesis-pulse" element={<GenesisPulseDemo />} />
+                  <Route path="/blog/:id" element={<BlogPage />} />
+                  
+                  {/* Admin Routes */}
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route
+                    path="/admin/blogs"
+                    element={
+                      <ProtectedRoute>
+                        <BlogList />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/blogs/new"
+                    element={
+                      <ProtectedRoute>
+                        <BlogEditor />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/blogs/:id"
+                    element={
+                      <ProtectedRoute>
+                        <BlogEditor />
+                      </ProtectedRoute>
+                    }
+                  />
+                  
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </SmoothScroll>
           </TooltipProvider>
         </QueryClientProvider>
       )}

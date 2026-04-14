@@ -1,8 +1,27 @@
-import { motion } from "framer-motion";
-import { ExternalLink, Github, Heart, GraduationCap, Globe, Brain, Plane, Briefcase, Shield } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Github, Heart, GraduationCap, Globe, Brain, Plane, Briefcase, Shield, ChevronRight } from "lucide-react";
+
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  gradient: string;
+  glow: string;
+  github: string;
+  demo: string | null;
+}
+
+interface Category {
+  category: string;
+  icon: any;
+  projects: Project[];
+}
 
 const Projects = () => {
-  const projectCategories = [
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+
+  const projectCategories: Category[] = [
     {
       category: "Healthcare & Medical AI",
       icon: Heart,
@@ -101,7 +120,7 @@ const Projects = () => {
           demo: "https://visheshjha.com.np/",
         },
         {
-          title: "JEC (Junior Entrepreneurship Circle)",
+          title: "JEC",
           description: "Official website for Junior Entrepreneurship Circle promoting student entrepreneurship",
           tech: ["React", "Business", "Community"],
           gradient: "from-emerald-500/20 to-transparent",
@@ -153,21 +172,12 @@ const Projects = () => {
         },
         {
           title: "PlantMD",
-          description: "AI-powered plant disease detection using computer vision and machine learning for agricultural diagnosis",
-          tech: ["TensorFlow", "OpenCV", "Python", "React"],
+          description: "AI-powered plant disease detection using computer vision and machine learning",
+          tech: ["TensorFlow", "OpenCV", "Python"],
           gradient: "from-emerald-500/20 to-transparent",
           glow: "neon-border-violet",
           github: "#",
           demo: "https://plantmd.xyz",
-        },
-        {
-          title: "MockVisa Platform",
-          description: "Interactive visa interview preparation tool with AI-driven feedback and assessment",
-          tech: ["React", "Python", "TensorFlow", "PostgreSQL"],
-          gradient: "from-indigo-500/20 to-transparent",
-          glow: "neon-border-cyan",
-          github: "#",
-          demo: "https://mockvisa.com",
         },
       ],
     },
@@ -177,8 +187,8 @@ const Projects = () => {
       projects: [
         {
           title: "ZKYC",
-          description: "Zero-knowledge blockchain verification system ensuring privacy-preserving KYC authentication",
-          tech: ["Solidity", "Hardhat", "Web3.js", "Next.js"],
+          description: "Zero-knowledge blockchain verification system ensuring privacy-preserving KYC",
+          tech: ["Solidity", "Hardhat", "Web3.js"],
           gradient: "from-accent/20 to-transparent",
           glow: "neon-border-cyan",
           github: "#",
@@ -186,8 +196,8 @@ const Projects = () => {
         },
         {
           title: "ZeroPilot",
-          description: "Decentralized aggregator for Solana ecosystem, optimizing DeFi transactions across multiple protocols",
-          tech: ["Solana", "Rust", "TypeScript", "Next.js"],
+          description: "Decentralized aggregator for Solana ecosystem, optimizing DeFi transactions",
+          tech: ["Solana", "Rust", "Next.js"],
           gradient: "from-purple-500/20 to-transparent",
           glow: "neon-border-violet",
           github: "#",
@@ -195,7 +205,7 @@ const Projects = () => {
         },
         {
           title: "Qryptic Shard Net",
-          description: "Advanced blockchain network with quantum-resistant cryptography and sharding technology",
+          description: "Advanced blockchain network with quantum-resistant cryptography",
           tech: ["Blockchain", "Cryptography", "Web3"],
           gradient: "from-cyan-500/20 to-transparent",
           glow: "neon-border-cyan",
@@ -205,46 +215,13 @@ const Projects = () => {
       ],
     },
     {
-      category: "Travel & Other Applications",
-      icon: Plane,
-      projects: [
-        {
-          title: "Roam",
-          description: "Travel planning and exploration platform for discovering new destinations",
-          tech: ["React", "Maps API", "Travel"],
-          gradient: "from-sky-500/20 to-transparent",
-          glow: "neon-border-cyan",
-          github: "https://github.com/vishesh711/Roam",
-          demo: "https://roam-gamma.vercel.app/",
-        },
-        {
-          title: "Hack_blight",
-          description: "Innovative hackathon project addressing community challenges",
-          tech: ["React", "Node.js", "Innovation"],
-          gradient: "from-lime-500/20 to-transparent",
-          glow: "neon-border-violet",
-          github: "https://github.com/vishesh711/Hack_blight",
-          demo: "https://hack-blight.vercel.app/",
-        },
-        {
-          title: "SLOT-GAME",
-          description: "Interactive slot game with engaging gameplay and animations",
-          tech: ["JavaScript", "Game", "Entertainment"],
-          gradient: "from-yellow-500/20 to-transparent",
-          glow: "neon-border-cyan",
-          github: "https://github.com/vishesh711/SLOT-GAME",
-          demo: null,
-        },
-      ],
-    },
-    {
-      category: "Enterprise & Business Solutions",
+      category: "Enterprise & Business",
       icon: Briefcase,
       projects: [
         {
           title: "BlackBytes",
-          description: "Technology solutions company delivering cutting-edge software and digital transformation services",
-          tech: ["React", "Node.js", "Business", "Tech"],
+          description: "Technology solutions company delivering cutting-edge software services",
+          tech: ["React", "Node.js", "Business"],
           gradient: "from-slate-500/20 to-transparent",
           glow: "neon-border-cyan",
           github: "https://github.com/vishesh711/Blackbytes",
@@ -252,46 +229,19 @@ const Projects = () => {
         },
         {
           title: "MeroClinic",
-          description: "Telemedicine platform connecting patients with doctors for remote consultations and health monitoring",
-          tech: ["React", "Node.js", "WebRTC", "MongoDB"],
+          description: "Telemedicine platform connecting patients with doctors for consultations",
+          tech: ["React", "WebRTC", "MongoDB"],
           gradient: "from-blue-500/20 to-transparent",
           glow: "neon-border-violet",
           github: "#",
           demo: null,
         },
         {
-          title: "CareRide",
-          description: "Specialized ride-sharing platform designed for elderly passengers with accessibility features",
-          tech: ["React Native", "Node.js", "PostgreSQL", "Maps API"],
-          gradient: "from-orange-500/20 to-transparent",
-          glow: "neon-border-cyan",
-          github: "#",
-          demo: null,
-        },
-        {
-          title: "ShipSure Reloaded",
-          description: "Comprehensive shipping management platform with real-time tracking and automated logistics",
-          tech: ["React", "Node.js", "MongoDB", "Socket.io"],
-          gradient: "from-secondary/20 to-transparent",
-          glow: "neon-border-violet",
-          github: "#",
-          demo: null,
-        },
-        {
           title: "Prahari",
-          description: "Smart security surveillance system with AI-powered threat detection and alert mechanisms",
-          tech: ["Python", "OpenCV", "FastAPI", "React"],
+          description: "Smart security surveillance system with AI-powered threat detection",
+          tech: ["Python", "OpenCV", "FastAPI"],
           gradient: "from-red-500/20 to-transparent",
           glow: "neon-border-cyan",
-          github: "#",
-          demo: null,
-        },
-        {
-          title: "Waste Management System",
-          description: "IoT-enabled smart waste collection with route optimization and environmental monitoring",
-          tech: ["React", "Node.js", "IoT", "MongoDB"],
-          gradient: "from-primary/20 to-transparent",
-          glow: "neon-border-violet",
           github: "#",
           demo: null,
         },
@@ -300,145 +250,135 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background z-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent z-0" />
+    <section id="projects" className="min-h-screen py-24 px-4 relative overflow-hidden bg-background">
+      {/* Cinematic Fades for Section Integration */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background to-transparent z-20 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-20 pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto relative z-10">
+      {/* Background Decor */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,255,255,0.03)_0%,transparent_50%)] pointer-events-none" />
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12 md:mb-16"
+          className="text-center mb-24"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 glow-text-cyan terminal-text">
-            PROJECTS_ARCHIVE.db
+          <h2 className="text-5xl md:text-7xl font-bold mb-6 glow-text-cyan terminal-text">
+            PROJECT_MATRIX.bin
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground px-2">
-            Explore the digital dimensions I've crafted
+          <p className="text-muted-foreground terminal-text text-lg">
+            [Hover to initialize data streams]
           </p>
         </motion.div>
 
-        {projectCategories.map((category, categoryIndex) => {
-          const IconComponent = category.icon;
-          return (
-            <motion.div
-              key={category.category}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-              viewport={{ once: true }}
-              className="mb-16"
-            >
-              <motion.div 
-                className="flex items-center gap-3 mb-8"
-                whileHover={{ x: 10 }}
-                transition={{ type: "spring", stiffness: 300 }}
+        <div className="space-y-6">
+          {projectCategories.map((cat, idx) => {
+            const Icon = cat.icon;
+            const isHovered = hoveredCategory === cat.category;
+
+            return (
+              <motion.div
+                key={cat.category}
+                onMouseEnter={() => setHoveredCategory(cat.category)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                className="relative group "
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                viewport={{ once: true }}
               >
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <IconComponent className="w-8 h-8 text-primary" />
-                </motion.div>
-                <h3 className="text-3xl md:text-4xl font-bold terminal-text glow-text-cyan">
-                  {category.category}
-                </h3>
-              </motion.div>
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {category.projects.map((project, index) => (
-                  <motion.div
-                    key={project.title}
-                    initial={{ opacity: 0, y: 50, rotateX: -15 }}
-                    whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                    transition={{ 
-                      duration: 0.5, 
-                      delay: index * 0.1,
-                      type: "spring",
-                      stiffness: 100
-                    }}
-                    viewport={{ once: true }}
-                    whileHover={{ 
-                      scale: 1.05, 
-                      y: -15,
-                      rotateY: 5,
-                      transition: { duration: 0.3 }
-                    }}
-                    className="group relative"
-                    style={{ perspective: "1000px" }}
-                  >
-                    <motion.div 
-                      className={`absolute inset-0 bg-gradient-to-br ${project.gradient} rounded-xl blur-xl`}
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      transition={{ duration: 0.5 }}
-                    />
-                    
-                    <motion.div 
-                      className={`relative p-6 rounded-xl bg-card/80 border border-border 
-                                  hover:border-primary transition-all duration-300 ${project.glow}
-                                  backdrop-blur-md h-full flex flex-col shadow-2xl`}
-                      whileHover={{ 
-                        boxShadow: "0 0 30px rgba(0, 240, 255, 0.3)",
-                        borderColor: "rgba(0, 240, 255, 0.8)"
-                      }}
-                    >
-                      <h4 className="text-2xl font-bold mb-3 terminal-text group-hover:glow-text-cyan transition-all">
-                        {project.title}
-                      </h4>
-                      
-                      <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
-                        {project.description}
+                {/* Accordion Header */}
+                <div className={`
+                  relative flex items-center justify-between p-6 md:p-8 rounded-xl 
+                  border transition-all duration-300 bg-[#0c0c1a]/50
+                  ${isHovered ? 'border-primary shadow-[0_0_30px_rgba(0,255,255,0.08)]' : 'border-white/5 hover:border-primary/40'}
+                `}>
+                  <div className="flex items-center gap-6">
+                    <div className={`
+                      p-4 rounded-lg bg-background border transition-all duration-300
+                      ${isHovered ? 'border-primary text-primary shadow-[0_0_15px_rgba(0,255,255,0.3)] rotate-12' : 'border-white/10 text-muted-foreground'}
+                    `}>
+                      <Icon className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <h3 className={`text-2xl md:text-3xl font-bold terminal-text transition-colors duration-300 ${isHovered ? 'text-primary' : 'text-foreground/80'}`}>
+                        {cat.category}
+                      </h3>
+                      <p className="text-sm text-muted-foreground terminal-text uppercase tracking-widest mt-1">
+                        {cat.projects.length} Nodes detected
                       </p>
+                    </div>
+                  </div>
+                  
+                  <motion.div
+                    animate={{ rotate: isHovered ? 90 : 0, scale: isHovered ? 1.2 : 1 }}
+                    className={isHovered ? 'text-primary' : 'text-muted-foreground'}
+                  >
+                    <ChevronRight className="w-8 h-8" />
+                  </motion.div>
+                </div>
 
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 text-xs rounded-full bg-muted text-muted-foreground 
-                                     border border-border terminal-text"
+                {/* Accordion Content */}
+                <AnimatePresence initial={false}>
+                  {isHovered && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: "circOut" }}
+                      className="overflow-hidden will-change-[height,opacity]"
+                    >
+                      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 p-4 mt-2">
+                        {cat.projects.map((proj, pIdx) => (
+                          <motion.div
+                            key={proj.title}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: pIdx * 0.05 }}
+                            className="relative group/project p-6 rounded-lg bg-[#0c0c1a] border border-white/5 hover:border-primary/30 transition-all overflow-hidden"
                           >
-                            {tech}
-                          </span>
+                            <div className={`absolute inset-0 bg-gradient-to-br ${proj.gradient} opacity-0 group-hover/project:opacity-100 transition-opacity duration-500`} />
+                            
+                            <div className="relative z-10">
+                              <div className="flex justify-between items-start mb-4">
+                                <h4 className="text-xl font-bold text-foreground group-hover/project:text-primary transition-colors">
+                                  {proj.title}
+                                </h4>
+                                <div className="flex gap-2">
+                                  {proj.demo && (
+                                    <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 text-muted-foreground hover:text-primary transition-all">
+                                      <ExternalLink className="w-4 h-4" />
+                                    </a>
+                                  )}
+                                  <a href={proj.github} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 hover:bg-secondary/20 text-muted-foreground hover:text-secondary transition-all">
+                                    <Github className="w-4 h-4" />
+                                  </a>
+                                </div>
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-6 line-clamp-2">
+                                {proj.description}
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {proj.tech.map(t => (
+                                  <span key={t} className="text-[10px] terminal-text uppercase px-2 py-0.5 rounded-full bg-primary/5 border border-primary/20 text-primary/70">
+                                    {t}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </motion.div>
                         ))}
                       </div>
-
-                      <div className="flex gap-4 mt-auto">
-                        {project.demo && (
-                          <motion.a
-                            href={project.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                            View
-                          </motion.a>
-                        )}
-                        <motion.a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="flex items-center gap-2 text-sm text-secondary hover:text-secondary/80 transition-colors"
-                        >
-                          <Github className="w-4 h-4" />
-                          Code
-                        </motion.a>
-                      </div>
                     </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          );
-        })}
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

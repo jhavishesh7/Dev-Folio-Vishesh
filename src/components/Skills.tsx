@@ -281,8 +281,11 @@ const Skills = () => {
     <section 
       ref={sectionRef}
       id="skills" 
-      className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden"
+      className="min-h-screen py-8 sm:py-12 md:py-20 px-4 relative overflow-hidden bg-background"
     >
+      {/* Bottom fade for seamless transition to Projects */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-20 pointer-events-none" />
+      
       {/* Interactive Neural Network / Particle Background */}
       <canvas
         ref={canvasRef}

@@ -53,10 +53,11 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <Canvas 
           camera={{ position: [0, 0, 1] }}
-          dpr={[1, 1.5]}
+          dpr={[1, 1.2]}
           performance={{ min: 0.5 }}
+          gl={{ antialias: false, powerPreference: "high-performance" }}
         >
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+          <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
           <Float speed={2} rotationIntensity={0.6} floatIntensity={0.6}>
             <ambientLight intensity={0.6} />
             <pointLight position={[10, 10, 10]} intensity={1.5} color="#00f0ff" />
@@ -156,37 +157,6 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ 
-            opacity: [0.5, 1], 
-            y: [0, 10]
-          }}
-          transition={{ 
-            delay: 2, 
-            duration: 1.5, 
-            repeat: Infinity, 
-            repeatType: "reverse",
-            ease: "easeInOut" 
-          }}
-          className="absolute bottom-8 cursor-pointer"
-          onClick={scrollToContent}
-          whileHover={{ scale: 1.2 }}
-        >
-          <motion.div
-            animate={{ 
-              boxShadow: [
-                "0 0 10px rgba(0, 240, 255, 0.5)",
-                "0 0 20px rgba(0, 240, 255, 0.8)"
-              ]
-            }}
-            transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-            className="rounded-full p-2"
-          >
-            <ChevronDown className="w-8 h-8 text-primary" />
-          </motion.div>
-        </motion.div>
       </div>
 
       {/* Scanline Effect */}
